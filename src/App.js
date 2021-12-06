@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import twitterLogo from "./assets/twitter-logo.svg";
 import githubLogo from "./assets/github.png";
 import upVoteImage from "./assets/hand.thumbsup.circle.png";
@@ -285,7 +285,7 @@ const App = () => {
     }
   };
 
-  const getGifList = async () => {
+  const getGifList = useCallback(async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
@@ -299,7 +299,7 @@ const App = () => {
       console.log("Error in getGifList: ", error);
       setGifList(null);
     }
-  };
+  }, []);
 
   // Check if is connected
   useEffect(() => {
@@ -315,7 +315,7 @@ const App = () => {
       console.log("Fetching GIF list...");
       getGifList();
     }
-  }, [walletAddress]);
+  }, [walletAddress, getGifList]);
 
   return (
     <div className="App">
